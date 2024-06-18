@@ -1,0 +1,72 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Payment {
+  createdAt     DateTime                  @default(now())
+  id            String                    @id @default(cuid())
+  paymentAmount Float?
+  paymentDate   DateTime?
+  paymentMethod EnumPaymentPaymentMethod?
+  updatedAt     DateTime                  @updatedAt
+}
+
+model Claim {
+  claimAmount Float?
+  claimDate   DateTime?
+  claimNumber String?
+  createdAt   DateTime         @default(now())
+  id          String           @id @default(cuid())
+  status      EnumClaimStatus?
+  updatedAt   DateTime         @updatedAt
+}
+
+model Patient {
+  address       String?
+  contactNumber String?
+  createdAt     DateTime           @default(now())
+  dateOfBirth   DateTime?
+  firstName     String?
+  gender        EnumPatientGender?
+  id            String             @id @default(cuid())
+  lastName      String?
+  updatedAt     DateTime           @updatedAt
+}
+
+model Insurance {
+  coverageAmount    Float?
+  createdAt         DateTime @default(now())
+  id                String   @id @default(cuid())
+  insuranceProvider String?
+  policyNumber      String?
+  updatedAt         DateTime @updatedAt
+}
+
+model User {
+  createdAt DateTime @default(now())
+  email     String?  @unique
+  firstName String?
+  id        String   @id @default(cuid())
+  lastName  String?
+  password  String
+  roles     Json
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+}
+
+enum EnumPaymentPaymentMethod {
+  Option1
+}
+
+enum EnumClaimStatus {
+  Option1
+}
+
+enum EnumPatientGender {
+  Option1
+}
